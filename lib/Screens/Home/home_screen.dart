@@ -7,6 +7,7 @@ import 'Model/course_model.dart';
 import 'Model/instructor_model.dart';
 import 'course_details.dart';
 import 'course_screen.dart';
+import 'instructor_details.dart';
 import 'instructor_list.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -200,9 +201,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.symmetric(
                         horizontal: 5,
                       ), // تعديل المسافة بين الكروت
-                      child: InstructorCard(
-                        instructorList: instructors[i],
-                      ).onTap(() {}, highlightColor: context.cardColor),
+                      child: InstructorCard(instructorList: instructors[i])
+                          .onTap(() {
+                            InstructorDetailsScreen(
+                              instructor: instructors[i],
+                            ).launch(context);
+                          }, highlightColor: context.cardColor),
                     );
                   },
                 ),

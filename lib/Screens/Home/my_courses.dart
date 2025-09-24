@@ -16,6 +16,7 @@ class _MyCoursesState extends State<MyCourses> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         foregroundColor: Colors.white,
         // leading: IconButton(
@@ -31,17 +32,17 @@ class _MyCoursesState extends State<MyCourses> {
           ),
         ),
         surfaceTintColor: Colors.white,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: GestureDetector(
-              child: const Icon(Icons.search, color: Colors.white),
-              // onTap: () {
-              //   const NotificationScreen().launch(context);
-              // },
-            ),
-          ),
-        ],
+        // actions: [
+        //   Padding(
+        //     padding: const EdgeInsets.all(8.0),
+        //     child: GestureDetector(
+        //       child: const Icon(Icons.search, color: Colors.white),
+        //       // onTap: () {
+        //       //   const NotificationScreen().launch(context);
+        //       // },
+        //     ),
+        //   ),
+        // ],
         iconTheme: const IconThemeData(color: kTitleColor),
         backgroundColor: kMainColor,
         elevation: 0.0,
@@ -158,23 +159,23 @@ class MyCourseCard extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 4.0),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.star_rounded,
-                          color: Color(0xFFF5B400),
-                          size: 16,
-                        ),
-                        const SizedBox(width: 2.0),
-                        // Text(
-                        //   courseList.courseRating,
-                        //   style: kTextStyle.copyWith(
-                        //     color: kGreyTextColor,
-                        //     fontSize: 12.0,
-                        //   ),
-                        // ),
-                      ],
-                    ),
+                    // Row(
+                    //   children: [
+                    //     const Icon(
+                    //       Icons.star_rounded,
+                    //       color: Color(0xFFF5B400),
+                    //       size: 16,
+                    //     ),
+                    //     const SizedBox(width: 2.0),
+                    //     // Text(
+                    //     //   courseList.courseRating,
+                    //     //   style: kTextStyle.copyWith(
+                    //     //     color: kGreyTextColor,
+                    //     //     fontSize: 12.0,
+                    //     //   ),
+                    //     // ),
+                    //   ],
+                    // ),
                   ],
                 ),
               ),

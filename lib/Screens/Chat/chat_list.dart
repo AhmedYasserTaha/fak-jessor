@@ -1,7 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:nb_utils/nb_utils.dart';
 import '../../constant.dart';
 import 'chat_inbox.dart';
@@ -47,33 +46,33 @@ class _ChatScreenState extends State<ChatScreen> {
         elevation: 0.0,
         centerTitle: true,
         title: Text('Chat', style: kTextStyle.copyWith(color: Colors.white)),
-        actions: [
-          PopupMenuButton(
-            itemBuilder: (BuildContext bc) => [
-              PopupMenuItem(
-                value: "/Products",
-                child: Row(
-                  children: [
-                    const Icon(Icons.add_to_photos, color: kGreyTextColor),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Text(
-                        'Add Contact',
-                        style: GoogleFonts.poppins(
-                          fontSize: 18.0,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-            onSelected: (value) {
-              Navigator.pushNamed(context, '$value');
-            },
-          ),
-        ],
+        // actions: [
+        //   PopupMenuButton(
+        //     itemBuilder: (BuildContext bc) => [
+        //       PopupMenuItem(
+        //         value: "/Products",
+        //         child: Row(
+        //           children: [
+        //             const Icon(Icons.add_to_photos, color: kGreyTextColor),
+        //             Padding(
+        //               padding: const EdgeInsets.only(left: 8.0),
+        //               child: Text(
+        //                 'Add Contact',
+        //                 style: GoogleFonts.poppins(
+        //                   fontSize: 18.0,
+        //                   color: Colors.black,
+        //                 ),
+        //               ),
+        //             ),
+        //           ],
+        //         ),
+        //       ),
+        //     ],
+        //     onSelected: (value) {
+        //       Navigator.pushNamed(context, '$value');
+        //     },
+        //   ),
+        // ],
       ),
       body: SingleChildScrollView(
         child: Column(

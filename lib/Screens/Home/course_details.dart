@@ -1,7 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -152,30 +151,30 @@ class _CourseDetailsState extends State<CourseDetails> {
                   height: 250.0,
                   fit: BoxFit.cover,
                 ),
-                Positioned(
-                  right: 0.0,
-                  bottom: 0.0,
-                  child: Container(
-                    width: 80.0,
-                    height: 40.0,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20.0),
-                        bottomLeft: Radius.circular(20.0),
-                      ),
-                      color: Color(0xFF453D80),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Free',
-                        style: kTextStyle.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                // Positioned(
+                //   right: 0.0,
+                //   bottom: 0.0,
+                //   child: Container(
+                //     width: 80.0,
+                //     height: 40.0,
+                //     decoration: const BoxDecoration(
+                //       borderRadius: BorderRadius.only(
+                //         topLeft: Radius.circular(20.0),
+                //         bottomLeft: Radius.circular(20.0),
+                //       ),
+                //       color: Color(0xFF453D80),
+                //     ),
+                //     child: Center(
+                //       child: Text(
+                //         'Free',
+                //         style: kTextStyle.copyWith(
+                //           color: Colors.white,
+                //           fontWeight: FontWeight.bold,
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             Padding(
@@ -193,13 +192,6 @@ class _CourseDetailsState extends State<CourseDetails> {
                       fontWeight: FontWeight.bold,
                       fontSize: 18.0,
                     ),
-                  ),
-                  const Spacer(),
-                  Text('(4.7)', style: kTextStyle.copyWith(color: kTitleColor)),
-                  const Icon(
-                    FontAwesomeIcons.solidStar,
-                    color: Color(0xFFF5B400),
-                    size: 14.0,
                   ),
                 ],
               ),

@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:jessor/Screens/Authentication/sign_in.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -50,6 +51,13 @@ class _SignUpState extends State<SignUp> {
       if (userCredential.user != null) {
         await userCredential.user!.updateDisplayName(
           _nameController.text.trim(),
+        );
+
+        // Save phone number to SharedPreferences
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString(
+          'user_phone_number',
+          _phoneController.text.trim(),
         );
       }
 

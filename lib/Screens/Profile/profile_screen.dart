@@ -1,7 +1,9 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../constant.dart';
@@ -10,7 +12,7 @@ import '../Notification/notification_screen.dart';
 import 'edit_profile.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({super.key});
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -21,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String _name = 'Loading...';
   String _phone = '';
   String _email = 'Loading...';
-  String? _photoURL;
+  dynamic _photo; // Can be a URL String or a File object
   User? _user;
 
   @override
@@ -37,15 +39,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
         setState(() {
           _name = 'Guest User';
           _email = 'Sign in to unlock all features';
-          _photoURL = null; // Or a default guest avatar
+          _photo = null; // Or a default guest avatar
           _phone = '';
         });
       } else {
+        // Load image from SharedPreferences first
+        final prefs = await SharedPreferences.getInstance();
+        final imagePath = prefs.getString('profile_image_path');
         setState(() {
           _name = _user!.displayName ?? 'No Name Set';
           _email = _user!.email ?? 'No Email Set';
-          _photoURL = _user!.photoURL;
-          _phone = _user!.phoneNumber ?? ''; // Phone number might be empty
+          if (imagePath != null) {
+            _photo = File(imagePath);
+          } else {
+            _photo = _user!.photoURL;
+          }
+          // Load phone number from SharedPreferences, fallback to Firebase or empty
+          final storedPhoneNumber = prefs.getString('user_phone_number');
+          _phone = storedPhoneNumber ?? _user!.phoneNumber ?? '';
         });
       }
     }
@@ -67,17 +78,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         elevation: 0.0,
         centerTitle: true,
         title: Text('Profile', style: kTextStyle.copyWith(color: Colors.white)),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 15.0),
-            child: GestureDetector(
-              onTap: () {
-                const NotificationScreen().launch(context);
-              },
-              child: const Icon(Icons.notifications, color: Colors.white),
-            ),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -89,10 +89,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
               CircleAvatar(
                 radius: 60.0,
                 backgroundColor: kTitleColor,
-                backgroundImage: _photoURL != null && _photoURL!.isNotEmpty
-                    ? NetworkImage(_photoURL!)
-                    : const AssetImage('assets/images/processed-image.png')
-                          as ImageProvider,
+                backgroundImage: _photo != null
+                    ? (_photo is File
+                              ? FileImage(_photo as File)
+                              : (_photo is String && _photo.isNotEmpty)
+                              ? NetworkImage(_photo as String)
+                              : const AssetImage(
+                                  'assets/images/processed-image.png',
+                                ))
+                          as ImageProvider
+                    : const AssetImage('assets/images/processed-image.png'),
               ),
               const SizedBox(height: 20.0),
               Text(
@@ -110,6 +116,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   fontSize: 14.0,
                 ),
               ),
+              Text(
+                _phone,
+                style: kTextStyle.copyWith(
+                  color: kGreyTextColor,
+                  fontSize: 14.0,
+                ),
+              ),
               const SizedBox(height: 20.0),
               if (_user != null && !_user!.isAnonymous)
                 ProfileOptions(
@@ -120,11 +133,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            EditProfile(name: _name, phone: _phone),
+                            // Pass the current phone number to EditProfile
+                            EditProfile(
+                              name: _name,
+                              currentPhoto: _photo,
+                              phone: _phone,
+                            ),
                       ),
-                    );
-                    if (result == true && mounted) {
-                      _loadUserData(); // Reload user data if profile was updated
+                    ); // The result will be a Map
+
+                    if (result != null && result is Map && mounted) {
+                      setState(() {
+                        _name = result['name'] as String;
+                        if (result['image'] != null) {
+                          _photo = result['image'];
+                          _phone =
+                              result['phone']
+                                  as String; // Update phone from result
+                        }
+                      });
                     }
                   },
                   background: const Color(0xFFFBECD9),
@@ -135,12 +162,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               //   pressed: () {},
               //   background: const Color(0xFFD2E4FF),
               // ),
-              // ProfileOptions(
-              //   title: 'Notification',
-              //   image: 'assets/images/notificationicon.png',
-              //   pressed: () {},
-              //   background: const Color(0xFFE1DDFF),
-              // ),
+              ProfileOptions(
+                title: 'Notification',
+                image: 'assets/images/notificationicon.png',
+                pressed: () {
+                  const NotificationScreen().launch(context);
+                },
+                background: const Color(0xFFE1DDFF),
+              ),
               // ProfileOptions(
               //   title: 'WishList',
               //   image: 'assets/images/wishlisticon.png',
@@ -173,12 +202,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 // ignore: must_be_immutable
 class ProfileOptions extends StatelessWidget {
   ProfileOptions({
-    Key? key,
+    super.key,
     required this.title,
     required this.image,
     required this.pressed,
     required this.background,
-  }) : super(key: key);
+  });
   String title, image;
   Color background;
 
