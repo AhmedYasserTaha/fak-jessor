@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "281723459207",
+    "project_id": "jessor-2b0a1",
+    "storage_bucket": "jessor-2b0a1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:281723459207:android:782b83a25dbd7c25d20a22",
+        "android_client_info": {
+          "package_name": "com.example.jessor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiLgzamfbZbMwg0caHbxJQAk5DdT9fIkw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
